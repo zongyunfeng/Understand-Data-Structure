@@ -2,16 +2,21 @@ package me.yunfeng.collection
 
 import me.yunfeng.constant.INCREMENT_SIZE
 import me.yunfeng.exception.VectorIndexOutOfBoundsException
+import java.util.*
 
 @Suppress("UNCHECKED_CAST")
 class Vector<E> {
+    //实际保存数据的数组
     private var elements: Array<Any?>
+    //记录已存储的数据数量
     private var size = 0
 
+    //无参构造函数，创造一个空数组
     constructor() {
         elements = emptyArray()
     }
 
+    //根据输入的容量来创建一个数组
     constructor(capacity: Int) {
         elements = when {
             capacity == 0 -> emptyArray()
@@ -20,6 +25,7 @@ class Vector<E> {
         }
     }
 
+    //在在数组最后一个数据后添加一个元素
     fun add(element: E) {
         if (size == elements.size) {
             val newArray: Array<Any?> =
@@ -30,6 +36,7 @@ class Vector<E> {
         elements[size++] = element
     }
 
+    //在指定位置添加一个元素
     fun add(index: Int, element: E) {
         validateElementIndex(index)
         if (size == elements.size) {
@@ -43,6 +50,7 @@ class Vector<E> {
         size++
     }
 
+    //移除指定位置的元素
     fun remove(index: Int): E {
         validatePositionIndex(index)
         val oldVlue = elements[index]
@@ -53,6 +61,7 @@ class Vector<E> {
         return oldVlue as E
     }
 
+    //移除特定元素
     fun remove(element: E): Boolean {
         val index = indexOf(element)
         return if (index >= 0) {
@@ -63,13 +72,14 @@ class Vector<E> {
         }
     }
 
+    //返回特定元素的索引
     fun indexOf(element: E): Int {
         var index = -1
         for (i in 0 until size) {
+            index++
             if (elements[i] == element) {
                 return index
             }
-            index++
         }
         return -1
     }
@@ -99,4 +109,8 @@ class Vector<E> {
     }
 
     private fun newCapacity() = size + if (elements.size < INCREMENT_SIZE) INCREMENT_SIZE else INCREMENT_SIZE shr 1
+
+    override fun toString(): String {
+        return Arrays.toString(elements.copyOf(size))
+    }
 }
