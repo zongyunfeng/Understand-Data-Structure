@@ -5,19 +5,13 @@ import me.yunfeng.exception.VectorIndexOutOfBoundsException
 import java.util.*
 
 @Suppress("UNCHECKED_CAST")
-class Vector<E> {
+class Vector<E> constructor(capacity: Int = 0) : List<E> {
     //实际保存数据的数组
     private var elements: Array<Any?>
     //记录已存储的数据数量
     private var size = 0
 
-    //无参构造函数，创造一个空数组
-    constructor() {
-        elements = emptyArray()
-    }
-
-    //根据输入的容量来创建一个数组
-    constructor(capacity: Int) {
+    init {
         elements = when {
             capacity == 0 -> emptyArray()
             capacity > 0 -> arrayOfNulls(capacity)
