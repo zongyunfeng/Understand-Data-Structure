@@ -93,12 +93,12 @@ class Vector<E> constructor(capacity: Int = 0) : List<E> {
     }
 
     private fun validatePositionIndex(index: Int) {
-        if (index < 0 || index >= size)
+        if (index < 0 || index > size)
             throw VectorIndexOutOfBoundsException(index, size)
     }
 
     private fun validateElementIndex(index: Int) {
-        if (index < 0 || index > size)
+        if (index < 0 || index >= size)
             throw VectorIndexOutOfBoundsException(index, size)
     }
 
