@@ -34,13 +34,12 @@ class SingularLinkedList<E> : List<E> {
     }
 
     fun add(index: Int, element: E) {
-        validateElementIndex(index)
-        if (index == size - 1) {
+        validatePositionIndex(index)
+        if (index == size) {
             add(element)
         } else {
             var current = head
-            val previousIndex = index - 1
-            for (e in 0 until previousIndex) {
+            for (e in 0 until index - 1) {
                 current = current?.nextNode
             }
             val next = current?.nextNode
@@ -51,13 +50,15 @@ class SingularLinkedList<E> : List<E> {
     }
 
     fun remove(index: Int): E {
-        validatePositionIndex(index)
+        validateElementIndex(index)
         var current = head
         for (i in 0 until index - 1) {
             current = current?.nextNode
         }
         val oldValue = current?.nextNode
         current?.nextNode = oldValue?.nextNode
+        oldValue?.nextNode = null
+        size--
         return oldValue as E
     }
 
@@ -70,10 +71,8 @@ class SingularLinkedList<E> : List<E> {
 
                 if (previous == null) {
                     head = next
-                    current.nextNode = null
                 } else {
                     previous.nextNode = next
-                    current.nextNode = null
                 }
 
                 if (next == null) {
@@ -81,8 +80,11 @@ class SingularLinkedList<E> : List<E> {
                     previous?.nextNode = null
                 } else {
                     previous?.nextNode = next
-                    current.nextNode = null
                 }
+
+                current.nextNode=null
+
+                size--
                 return true
             }
             current = current.nextNode
@@ -129,9 +131,12 @@ class SingularLinkedList<E> : List<E> {
     }
 
     private fun validateElementIndex(index: Int) {
-        if (index < 0 || index >=size)
+        if (index < 0 || index >= size)
             throw VectorIndexOutOfBoundsException(index, size)
     }
 
-    internal class Node<E> constructor(internal var element: E, internal var nextNode: Node<E>?)
+    internal class Node<E> constructor(
+        internal var element: E,
+        internal var nextNode: Node<E>?
+    )
 }
